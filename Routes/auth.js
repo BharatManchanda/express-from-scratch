@@ -6,7 +6,4 @@ router.post('/login', login);
 router.post('/logout', login);
 router.post('/register', register);
 
-module.exports = router;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ```````````````
-
-
-
+module.exports = router;
