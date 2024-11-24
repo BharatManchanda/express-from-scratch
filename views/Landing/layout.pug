@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        title=title
+        link(rel="stylesheet", href="/styles.css")
+    body
+        header
+            nav
+                div(style="display:flex; justify-content:space-between; align-items:center")
+                    h1
+                        a(href="/") Logo
+                    ul(style="padding-left:0px")
+                        li(style="display: inline-block; margin-right: 10px"): a(href="/") Home
+                        li(style="display: inline-block; margin-right: 10px"): a(href="/about") About
+                        li(style="display: inline-block; margin-right: 10px"): a(href="/services") Services
+                        li(style="display: inline-block; margin-right: 10px"): a(href="/contact") Contact
+            main
+                block content
+        footer
+            p &copy; 2024 AC Repair Shop
