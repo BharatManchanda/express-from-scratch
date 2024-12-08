@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import {
-    Container,
-    TextField,
-    Button,
-    Typography,
-    Box,
-    Grid2,
-} from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Grid2 } from '@mui/material';
+import { initForm } from './Constant';
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../../../Redux/Auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterPage = () => {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
+const Login = () => {
+    const [formData, setFormData] = useState({...initForm});
+    const auth = useSelector(store => store.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,15 +18,27 @@ const RegisterPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add registration logic here (API call or validation)
-        console.log('Form Data Submitted:', formData);
+        dispatch(login({
+            payload: formData,
+            navigate
+        }));
     };
+
+    React.useEffect(() => {
+        if (auth.token && auth.user) {
+            // if (user.role == 'admin' || user.role == 'recruiter'){
+                // navigate(`/${user.role}/dashboard`);
+            // } else {
+                navigate(`/`);
+            // }
+        }
+    }, []);
 
     return (
         <Container maxWidth="sm">
             <Box sx={{ mt: 5, textAlign: 'center' }}>
                 <Typography variant="h4" gutterBottom>
-                    Register
+                    Login
                 </Typography>
             </Box>
             <Box
@@ -40,33 +46,10 @@ const RegisterPage = () => {
                 onSubmit={handleSubmit}
                 sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}
             >
-                <Grid2 container spacing={2}>
-                    <Grid2 item xs={12} sm={6}>
-                        <TextField
-                            label="First Name"
-                            name="firstName"
-                            fullWidth
-                            required
-                            value={formData.firstName}
-                            onChange={handleChange}
-                        />
-                    </Grid2>
-                    <Grid2 item xs={12} sm={6}>
-                        <TextField
-                            label="Last Name"
-                            name="lastName"
-                            fullWidth
-                            required
-                            value={formData.lastName}
-                            onChange={handleChange}
-                        />
-                    </Grid2>
-                </Grid2>
                 <TextField
                     label="Email"
                     name="email"
-                    fullWidth
-                    required
+                    fullWidth required
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -74,19 +57,9 @@ const RegisterPage = () => {
                 <TextField
                     label="Password"
                     name="password"
-                    fullWidth
-                    required
+                    fullWidth required
                     type="password"
                     value={formData.password}
-                    onChange={handleChange}
-                />
-                <TextField
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    fullWidth
-                    required
-                    type="password"
-                    value={formData.confirmPassword}
                     onChange={handleChange}
                 />
                 <Button
@@ -94,13 +67,13 @@ const RegisterPage = () => {
                     variant="contained"
                     color="primary"
                     fullWidth
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 2, textTransform: 'capitalize' }}
                 >
-                    Register
+                    Login
                 </Button>
             </Box>
         </Container>
     );
 };
 
-export default RegisterPage;
+export default Login;

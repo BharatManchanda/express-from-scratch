@@ -1,43 +1,26 @@
 const express = require("express");
-const auth = require("./Routes/auth");
+const authRoutes = require("./routes/auth");
+const mongodbConnect = require("./config/db");
 require('dotenv').config()
 const app = express();
 const PORT = process.env.PORT || 8000;
+const cors = require('cors');
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Use CORS middleware
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 app.set('view engine', 'pug')
 app.use(express.static('public'))
+app.use("/api/auth/", authRoutes)
 
-app.get('/', function (request, response) {
-    response.render('Landing/home', {
-        title: "Home - AC Repair Shop",
-        message: "Welcome to Pug with Express!"
-    });
-});
-
-app.get('/services', function (request, response) {
-    response.render('Landing/home', {
-        title: "Home - AC Repair Shop",
-        message: "Welcome to Pug with Express!"
-    });
-});
-
-app.get('/about', function (request, response) {
-    response.render('Landing/about', {
-        title: "About Us - AC Repair Shop",
-        message: "Welcome to Pug with Express!"
-    });
-});
-
-app.get('/contact', function (request, response) {
-    response.render('Landing/contact', {
-        title: "Contact Us - AC Repair Shop",
-        message: "Welcome to Pug with Express!"
-    });
-});
-
-app.use("/auth", auth)
-
-app.listen(PORT, function(){
-    console.log(process.env,"::process.env")
+app.listen(PORT, function () {
+    mongodbConnect();
     console.log(`Server start on: http://localhost:${PORT}`);
 })

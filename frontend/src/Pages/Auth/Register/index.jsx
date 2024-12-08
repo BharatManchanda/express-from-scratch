@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import {
-    Container,
-    TextField,
-    Button,
-    Typography,
-    Box,
-    Grid2,
-} from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Grid2 } from '@mui/material';
 import { initForm } from './Constant';
+import { useSelector, useDispatch } from 'react-redux'
+import { register } from '../../../Redux/Auth/authSlice';
 
 const Register = () => {
     const [formData, setFormData] = useState({...initForm});
-    const [errors, setErrors] = useState({});
+    const auth = useSelector(store => store.auth);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,7 +16,9 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add registration logic here (API call or validation)
+        dispatch(register({
+            payload: formData,
+        }));
     };
 
     return (
