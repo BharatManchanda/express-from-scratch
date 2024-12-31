@@ -14,13 +14,17 @@ export const menuLinks = [
     {
         to:"/contact-us",
         title:"Contact Us",
+    },
+    {
+        to:"/invitaion",
+        title:"Invitaion Card",
     }
 ]
 
 export const sideLink = [
     {
         to:"/register",
-        title:"register",
+        title:"sign up",
     },
     {
         to:"/login",

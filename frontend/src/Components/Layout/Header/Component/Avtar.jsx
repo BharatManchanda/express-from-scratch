@@ -13,6 +13,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../../Redux/Auth/authSlice';
+import { Link } from 'react-router-dom';
 
 export default function Avtar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -86,7 +87,10 @@ export default function Avtar() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClose}
+                    component={Link}
+                    to="/profile"
+                >
                     <Avatar /> Profile
                 </MenuItem>
                 <MenuItem onClick={handleClose}>

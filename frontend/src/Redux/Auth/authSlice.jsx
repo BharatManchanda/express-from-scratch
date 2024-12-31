@@ -49,6 +49,14 @@ export const getMe = createAsyncThunk('auth/get-me', async (data, { rejectWithVa
     }
 });
 
+export const updateMe = createAsyncThunk('auth/update-me', async (data, { rejectWithValue }) => {
+    try {
+        const response = await api.auth.updateMe(data.payload);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+})
 // Slice
 const authSlice = createSlice({
     name: 'auth',
@@ -85,6 +93,8 @@ const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.isLoading = false;
+                state.user = null;
+                state.token = null;
             })
             .addCase(logout.rejected, (state) => {
                 state.isLoading = false;
@@ -92,10 +102,23 @@ const authSlice = createSlice({
             .addCase(getMe.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(getMe.fulfilled, (state) => {
+            .addCase(getMe.fulfilled, (state, action) => {
+                state.user = action.payload.data;
+                state.token = action.payload.token;
                 state.isLoading = false;
             })
             .addCase(getMe.rejected, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(updateMe.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateMe.fulfilled, (state, action) => {
+                state.user = action.payload.data;
+                state.isLoading = false;
+                action.meta.arg.handleOpenClose();
+            })
+            .addCase(updateMe.rejected, (state) => {
                 state.isLoading = false;
             })
     },

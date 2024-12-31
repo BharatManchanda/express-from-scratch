@@ -13,7 +13,6 @@ const auth = async (request, response, next)  => {
         
         const decoded = jwt.verify(token, 'privateKey');
         const user = await User.findOne({_id:decoded.id})
-        console.log(user,"::user");
         
         if (!user) {
             return response.status(401).json({

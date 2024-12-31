@@ -14,6 +14,7 @@ const api = {
         login: async (data) => await axios.post('/auth/login', data),
         logout: async (data) => await axios.post('/auth/logout', data),
         getMe: async (data) => await axios.post('/auth/get-me', data),
+        updateMe: async (data) => await axios.put('/auth/update-me', data),
     },
 };
 

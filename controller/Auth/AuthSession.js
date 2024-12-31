@@ -65,8 +65,8 @@ class Auth{
             
             return response.json({
                 "status": true,
-                "message": "User register successfully.",
-                "data": user,
+                "message": "User register successfully."
+                // "data": user,
             })
         } catch (error) {
             return response.status(422).json({
@@ -95,13 +95,45 @@ class Auth{
     }
     
     static async getMe (request, response) {
-        const decoded = jwt.verify(request.headers.authorization, 'privateKey');
-        const user = User.findOne({_id:decoded.id});
-        return response.status(422).json({
-            "status": false,
-            "message": "User detail fetched successfully.",
-            "data": user
-        });
+        try {
+            const decoded = jwt.verify(request.headers.authorization, 'privateKey');
+            const user = await User.findOne({_id:decoded.id});
+            
+            return response.status(200).json({
+                status: true,
+                message: "User detail fetched successfully.",
+                data: user
+            });
+        } catch (error) {
+            return response.status(200).json({
+                "status": false,
+                "message": error,
+            });
+        }
+    }
+    
+    static async updateMe (request, response) {
+        try {
+            let {first_name, last_name, email, phone, about} = request.body;
+            const decoded = jwt.verify(request.headers.authorization, 'privateKey');
+            const user = await User.findByIdAndUpdate(decoded.id, {
+                first_name,
+                last_name,
+                email,
+                phone,
+                about,
+            }, { new: true });
+            return response.status(200).json({
+                status: true,
+                message: "User update successfully.",
+                data: user
+            });
+        } catch {
+            return response.status(200).json({
+                "status": false,
+                "message": error,
+            });
+        }
     }
 }
 

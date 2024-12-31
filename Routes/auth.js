@@ -9,5 +9,6 @@ router.post('/register', Auth.register);
 router.use(auth);
 router.post('/logout', Auth.logout);
 router.post('/get-me', Auth.getMe);
+router.put('/update-me', Auth.updateMe);
 
 module.exports = router;
